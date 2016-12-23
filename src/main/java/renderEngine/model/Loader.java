@@ -21,10 +21,11 @@ import java.util.List;
 public class Loader {
     private List<Integer> vaos = new ArrayList<>();
     private List<Integer> vbos = new ArrayList<>();
-    public RawModel loadToVAO(float [] positions, int[] indicies)
+    public RawModel loadToVAO(float [] positions, int[] indicies, float textureCoords[])
     {
         int vaoID = createVAO();
         storeDataInAttributeList(0,3,positions);
+        storeDataInAttributeList(1,2,textureCoords);
         bindIndicesBuffer(indicies);
         unbindVAO();
         return new RawModel(vaoID,indicies.length);

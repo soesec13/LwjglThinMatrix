@@ -24,16 +24,22 @@ public class Renderer {
         shader.stop();
     }
 
-    public void render(Entity e, StaticShader shader){
+    public void render(TexturedModel texturedModel, StaticShader shader){
+        Entity e = texturedModel.getEnt();
+        Texture t = texturedModel.getTex();
         GL30.glBindVertexArray(e.getModel().getVaoID());
         GL20.glEnableVertexAttribArray(0);
+        GL20.glEnableVertexAttribArray(1);
         Matrix4f transformation = Maths.createTransformationMatrix(
                 e.getPosition(),
                 e.getRotX(),e.getRotY(),e.getRotZ(),
                 e.getScale());
         shader.loadTransformationMatrix(transformation);
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        t.bind();
         GL11.glDrawElements(GL11.GL_TRIANGLES, e.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         GL20.glDisableVertexAttribArray(0);
+        GL20.glDisableVertexAttribArray(1);
         GL30.glBindVertexArray(0);
     }
 

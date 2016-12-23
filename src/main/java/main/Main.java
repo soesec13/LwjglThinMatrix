@@ -5,9 +5,7 @@ import org.joml.Vector3f;
 import renderEngine.display.DisplayManager;
 import renderEngine.entities.Camera;
 import renderEngine.entities.Entity;
-import renderEngine.model.Loader;
-import renderEngine.model.RawModel;
-import renderEngine.model.Renderer;
+import renderEngine.model.*;
 import shaders.ShaderProgram;
 import shaders.StaticShader;
 import util.Maths;
@@ -111,8 +109,11 @@ public class Main {
                 23,21,22
 
         };
-        RawModel model = loader.loadToVAO(vertices,indices);
+        RawModel model = loader.loadToVAO(vertices,indices,textureCoords);
+        Texture t = Texture.defaultLoad("crow");
+
         Entity test = new Entity(model, new Vector3f(0,0,-1),0,0,0,1);
+        TexturedModel tm = new TexturedModel(test,t);
         /*try {
             TexturedModel texturedModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("crow")));
         } catch (IOException e) {
@@ -125,7 +126,7 @@ public class Main {
             /*test.increasePosition(0,0,-0.01f);*/
             test.increaseRotation(1f,-0.5f,0.5f);
             shader.loadViewMatrix(cam);
-            renderer.render(test,shader);
+            renderer.render(tm,shader);
             shader.stop();
             DisplayManager.updateDisplay();
         }
